@@ -1,0 +1,23 @@
+{
+    "caseSensitive": "false",
+    "keywords": {
+        "color": "#0000ff",
+        "words": [
+            "var", 
+            "let",
+            "if",
+            "else"
+        ]
+    },
+    "strings": {
+        "color": "#00ff00",
+        "stringBorder": [
+            "\"",
+            "'",
+            "`"
+        ]
+    },
+    "numbers": {
+        "color": "#ffff00"
+    }
+}
