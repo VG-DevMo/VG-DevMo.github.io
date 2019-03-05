@@ -31,6 +31,8 @@ function renderMarkdownToContainer (sContainerId, aMarkdownCode) {
 
     sInnerHTML = createItalicBold(sInnerHTML);
 
+    sInnerHTML = createImages(sInnerHTML);
+
     sInnerHTML = createHyperLink(sInnerHTML);
 
     sInnerHTML = sInnerHTML.replace(/\%\&/g, "<BR>");
@@ -189,6 +191,27 @@ function createCodeParagraph (sText) {
             var sNewString = sString;
             sNewString = sNewString.replace(/^\`\`\`/gm, '<P class="MD_Code">');
             sNewString = sNewString.replace(/\`\`\`$/gm, "</P>");
+            sReturnText = sReturnText.replace(sString, sNewString);
+        });
+    }
+    return sReturnText;
+}
+
+/**
+ * Create image tag
+ * @param {String} sText 
+ */
+function createImages (sText) {
+    var sReturnText = sText;
+    var aMatches = sText.match(/\!\[.*?\]\(.*?\)/g);
+    if (Array.isArray(aMatches)) {
+        aMatches.forEach(function (sString) {
+            var sNewString = sString;
+            var sAltText = "";
+            var sImageLink = "";
+            sAltText = sNewString.split(/\[/)[1].split(/\]/)[0];
+            sImageLink = sNewString.split(/\(/)[1].split(/\)/)[0];
+            sNewString = '<img src="' + sImageLink + '" alt="' + sAltText + '"></img>';
             sReturnText = sReturnText.replace(sString, sNewString);
         });
     }
