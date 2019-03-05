@@ -33,17 +33,20 @@ function renderMarkdownToContainer (sContainerId, aMarkdownCode) {
 
     sInnerHTML = createHyperLink(sInnerHTML);
 
-    aMarkdownCode = sInnerHTML.split('%&');
+    sInnerHTML = sInnerHTML.replace(/\%\&/g, "<BR>");
+    oContainer.innerHTML = sInnerHTML;
+    // aMarkdownCode = sInnerHTML.split('%&');
     
-    oContainer.innerHTML = "";
+    // oContainer.innerHTML = "";
+    // oContainer.innerHTML = sInnerHTML;
     
-    aMarkdownCode.forEach(function (oStatement) {
+    // aMarkdownCode.forEach(function (oStatement) {
 
-        var oElement = interpreteMarkdownStatement(oStatement);
+    //     var oElement = interpreteMarkdownStatement(oStatement);
 
-        oContainer.appendChild(oElement);
+    //     oContainer.appendChild(oElement);
 
-    });
+    // });
 
 }
 
