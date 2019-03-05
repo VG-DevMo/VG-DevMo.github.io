@@ -1,5 +1,5 @@
 /**
- * THrows an error message
+ * Throws an error message
  * @param {String} sMessage Error message
  */
 function RenderingFailedException (sMessage) {
@@ -18,11 +18,25 @@ RenderingFailedException.prototype = Object.create(Error.prototype);
  * @throws {RenderingFailedException}
  */
 function renderMarkdownToContainer (sContainerId, aMarkdownCode) {
-
+    
     var oContainer = document.getElementById(sContainerId);
+    
+    var sInnerHTML = aMarkdownCode.join('%&');
 
+    sInnerHTML = createCodeParagraph(sInnerHTML);
+
+    sInnerHTML = createBold(sInnerHTML);
+
+    sInnerHTML = createItalic(sInnerHTML);
+
+    sInnerHTML = createItalicBold(sInnerHTML);
+
+    sInnerHTML = createHyperLink(sInnerHTML);
+
+    aMarkdownCode = sInnerHTML.split('%&');
+    
     oContainer.innerHTML = "";
-
+    
     aMarkdownCode.forEach(function (oStatement) {
 
         var oElement = interpreteMarkdownStatement(oStatement);
@@ -57,14 +71,6 @@ function interpreteMarkdownStatement (sStatement) {
         oElement = createParagraph(sStatement);
     }
     
-    oElement.innerHTML = createBold(oElement.innerHTML);
-
-    oElement.innerHTML = createItalic(oElement.innerHTML);
-
-    oElement.innerHTML = createItalicBold(oElement.innerHTML);
-
-    oElement.innerHTML = createHyperLink(oElement.innerHTML);
-
     return oElement;
 
 }
@@ -165,4 +171,22 @@ function createParagraph (sText) {
     oParagraph.className = "MD_P";
     oParagraph.innerHTML = sText;
     return oParagraph;
+}
+
+/**
+ * Code paragraph element
+ * @param {String} sText 
+ */
+function createCodeParagraph (sText) {
+    var sReturnText = sText;
+    var aMatches = sText.match(/\`\`\`.*?\`\`\`/gm);
+    if (Array.isArray(aMatches)) {
+        aMatches.forEach(function (sString) {
+            var sNewString = sString;
+            sNewString = sNewString.replace(/^\`\`\`/gm, '<P class="MD_Code">');
+            sNewString = sNewString.replace(/\`\`\`$/gm, "</P>");
+            sReturnText = sReturnText.replace(sString, sNewString);
+        });
+    }
+    return sReturnText;
 }
