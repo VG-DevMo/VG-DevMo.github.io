@@ -1,5 +1,5 @@
 /**
- * Throws an error message
+ * THrows an error message
  * @param {String} sMessage Error message
  */
 function RenderingFailedException (sMessage) {
@@ -34,19 +34,18 @@ function renderMarkdownToContainer (sContainerId, aMarkdownCode) {
     sInnerHTML = createHyperLink(sInnerHTML);
 
     sInnerHTML = sInnerHTML.replace(/\%\&/g, "<BR>");
+    
+    aMarkdownCode = sInnerHTML.split(/\<BR\>/g);
+    
+    var aMdCode = aMarkdownCode.map(function (sValue) {
+        sValue = interpreteMarkdownStatement(sValue); 
+        return sValue;
+    });
+    
+    sInnerHTML = aMdCode.join("<BR>");
+    
     oContainer.innerHTML = sInnerHTML;
-    // aMarkdownCode = sInnerHTML.split('%&');
-    
-    // oContainer.innerHTML = "";
-    // oContainer.innerHTML = sInnerHTML;
-    
-    // aMarkdownCode.forEach(function (oStatement) {
 
-    //     var oElement = interpreteMarkdownStatement(oStatement);
-
-    //     oContainer.appendChild(oElement);
-
-    // });
 
 }
 
@@ -84,10 +83,8 @@ function interpreteMarkdownStatement (sStatement) {
  * @param {Number} iLayer 
  */
 function createHeader (sText, iLayer) {
-    var oHeader = document.createElement("H" + iLayer.toString());
-    oHeader.className = "MD_Header";
-    oHeader.innerHTML = sText;
-    return oHeader;
+    var sReturnText = '<H' + iLayer + ' class="MD_Header">' + sText + '</H' + iLayer + '>';
+    return sReturnText;
 }
 
 /**
@@ -170,10 +167,14 @@ function createHyperLink (sText) {
  * @param {String} sText 
  */
 function createParagraph (sText) {
-    var oParagraph = document.createElement("P");
-    oParagraph.className = "MD_P";
-    oParagraph.innerHTML = sText;
-    return oParagraph;
+    // var oParagraph = document.createElement("P");
+    // oParagraph.className = "MD_P";
+    // oParagraph.innerHTML = sText;
+    // return oParagraph;
+    var sTest = sText.replace(/\s/g, "");
+    if (sTest != "") {
+        return '<P class="MD_P">' + sText + '</P>';
+    }
 }
 
 /**
