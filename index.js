@@ -44,10 +44,9 @@ function renderMarkdownToContainer (sContainerId, aMarkdownCode) {
         return sValue;
     });
     
-    sInnerHTML = aMdCode.join("<BR>");
+    sInnerHTML = aMdCode.join("");     
     
     oContainer.innerHTML = sInnerHTML;
-
 
 }
 
